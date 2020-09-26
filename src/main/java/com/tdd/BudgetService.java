@@ -24,16 +24,32 @@ public class BudgetService implements IBudgetService{
 
         Long diffDays=DAYS.between(startDate,endDate)+1;
         int totalDays = startDate.lengthOfMonth();
-        //整月
-        if(totalDays==diffDays){
+        /*
+           is same month check
+         */
+        if(startDate.getMonth().getValue() == endDate.getMonth().getValue()){
             String yearMonth=startDate.getYear()+"-"+startDate.getMonth().getValue();
-            for(Budget vo:budgetList){
-                if(vo.yearMonth.equals(yearMonth)){
-                    return vo.amount;
+            /*
+                整月
+             */
+            if(totalDays==diffDays ){
+
+                for(Budget vo:budgetList){
+                    if(vo.yearMonth.equals(yearMonth)){
+                        return vo.amount;
+                    }
+                }
+
+            }//不足月
+            else{
+                for(Budget vo:budgetList){
+                    if(vo.yearMonth.equals(yearMonth)){
+                        return vo.amount*diffDays/totalDays;
+                    }
                 }
             }
-
         }
+
 
         return -1;
     }
