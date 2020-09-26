@@ -1,6 +1,10 @@
 package com.tdd;
 
-public class IBudgetService {
+import java.util.ArrayList;
+
+public interface IBudgetService {
+    ArrayList<Budget> getAll();
+
 
 
 

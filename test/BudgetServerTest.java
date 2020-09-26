@@ -34,7 +34,7 @@ public class BudgetServerTest {
     public void test_SingleMonQuery(){
         service = new BudgetService();
         LocalDate startDate = LocalDate.of(2020,7,1);
-        LocalDate endDate = startDate.plusDays(30);
+        LocalDate endDate = LocalDate.of(2020,7,31);
         double resultAmount = service.query(startDate,endDate);
         Assert.assertThat(3100.0,is(resultAmount));
 
