@@ -64,13 +64,18 @@ public class BudgetServerTest {
 
     @Test
     public void test_durationFromMonQuery(){
-        LocalDate startDate = LocalDate.of(2020,6,1);
-        LocalDate endDate = LocalDate.of(2021,8,31);
+        LocalDate startDate = LocalDate.of(2020,5,30);
+        LocalDate endDate = LocalDate.of(2020,7,2);
         double resultAmount = service.query(startDate,endDate);
-        Assert.assertThat(6100.0,is(resultAmount));
+        Assert.assertThat(3400.0, is(resultAmount));
     }
-
-
+    @Test
+    public void test_no_budget(){
+        LocalDate startDate = LocalDate.of(2022,5,30);
+        LocalDate endDate = LocalDate.of(2022,7,2);
+        double resultAmount = service.query(startDate,endDate);
+        Assert.assertThat(0.0, is(resultAmount));
+    }
 }
 
 class FakeBudgeRepo implements IBudgetRepo{

@@ -1,6 +1,7 @@
 package com.tdd;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -48,18 +49,35 @@ public class BudgetService{
                 }
             }
         }else{
-            long diffMonth = MONTHS.between(startDate,endDate);
+            int lengthOfEndDateMonth = YearMonth.of(endDate.getYear(), endDate.getMonth().getValue()).lengthOfMonth();
+            long diffMonth = MONTHS.between(startDate.withDayOfMonth(1), endDate.withDayOfMonth(lengthOfEndDateMonth));
             System.out.println("diffMonth:"+diffMonth);
             LocalDate tmpDate ;
             double totalBudget = 0.0;
-            String startYearMonth=getYearMonth(startDate);
+            String startYearMonth = getYearMonth(startDate);
             totalBudget = totalBudget + getMonthBudget(startYearMonth);
             System.out.println("startYearMonth:"+startYearMonth);
+
             for (int i = 0;i<diffMonth;i++) {
                 tmpDate = startDate.plusMonths(i+1);
                 String tmpYearMon = getYearMonth(tmpDate);
                 System.out.println("tmpYearMon:"+tmpYearMon);
                 totalBudget = totalBudget + getMonthBudget(tmpYearMon);
+            }
+            if(startDate.getDayOfMonth()>1){
+                String tmpYearMon = getYearMonth(startDate);
+                double budget = getMonthBudget(tmpYearMon);
+                double outOfRangeDays = DAYS.between(LocalDate.of(startDate.getYear(),startDate.getMonth().getValue(), 1), startDate);
+                int lengthOfMonth = YearMonth.of(startDate.getYear(), startDate.getMonth().getValue()).lengthOfMonth();
+                totalBudget -= (budget/lengthOfMonth)*outOfRangeDays;
+            }
+
+
+            if(endDate.getDayOfMonth()< lengthOfEndDateMonth){
+                String tmpYearMon = getYearMonth(endDate);
+                double budget = getMonthBudget(tmpYearMon);
+                double outOfRangeDays = DAYS.between(endDate, LocalDate.of(endDate.getYear(),endDate.getMonth(), lengthOfEndDateMonth));
+                totalBudget -= (budget/lengthOfEndDateMonth)*outOfRangeDays;
             }
             return totalBudget;
         }
