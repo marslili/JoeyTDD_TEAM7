@@ -1,11 +1,14 @@
 package com.tdd;
 
+import com.sun.prism.shader.AlphaOne_Color_AlphaTest_Loader;
+
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Date;
 
 import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.MONTHS;
 
 public class BudgetService implements IBudgetService{
 
@@ -48,10 +51,36 @@ public class BudgetService implements IBudgetService{
                     }
                 }
             }
+        }else{
+            long diffMonth = MONTHS.between(startDate,endDate);
+            System.out.println("diffMonth:"+diffMonth);
+            LocalDate tmpDate ;
+            double totalBudget = 0.0;
+            String startYearMonth=startDate.getYear()+"-"+startDate.getMonth().getValue();
+            totalBudget = totalBudget + getMonthBudget(startYearMonth);
+            System.out.println("startYearMonth:"+startYearMonth);
+            for (int i = 0;i<diffMonth;i++) {
+                tmpDate = startDate.plusMonths(i+1);
+                String tmpYearMon = tmpDate.getYear()+"-"+tmpDate.getMonth().getValue();
+                System.out.println("tmpYearMon:"+tmpYearMon);
+                totalBudget = totalBudget + getMonthBudget(tmpYearMon);
+            }
+            return totalBudget;
         }
 
 
         return -1;
+    }
+
+    private double getMonthBudget(String yearMonth){
+        double amount = 0.0;
+        ArrayList<Budget> budgetList=getAll();
+        for(Budget vo:budgetList){
+            if(vo.yearMonth.equals(yearMonth)){
+                amount  = vo.amount;
+            }
+        }
+        return amount;
     }
 
     @Override
