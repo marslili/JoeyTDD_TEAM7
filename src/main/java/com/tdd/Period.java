@@ -18,20 +18,20 @@ public class Period {
     private LocalDate endDate;
 
 
-
     public Long getDiffMonth() {
         return MONTHS.between(YearMonth.from(this.startDate), YearMonth.from(this.endDate)) + 1;
     }
 
     public Double getOverLapRatio(YearMonth currentMonth) {
         Double ratio = 0d;
+        //起訖同月
+        if (getStartYearMonth().equals(getEndYearMonth())) {
+            Long diffDays = DAYS.between(getStartDate(), getEndDate());
+            return (diffDays + 1) * 1.0 / getStartDate().lengthOfMonth();
+        }
         //頭
         if (currentMonth.equals(getStartYearMonth())) {
             ratio = (getStartDate().lengthOfMonth() - getStartDate().getDayOfMonth() + 1) * 1.0 / (getStartDate().lengthOfMonth() * 1.0);
-            if (getStartYearMonth().equals(getEndYearMonth())) {//起訖同月
-                Long diffDays = DAYS.between(getStartDate(), getEndDate());
-                ratio = (diffDays + 1) * 1.0 / getStartDate().lengthOfMonth();
-            }
         } else if (currentMonth.isAfter(getStartYearMonth()) && currentMonth.isBefore(getEndYearMonth())) {//中間
             ratio = 1d;
         } else if (currentMonth.equals(getEndYearMonth())) {//尾巴
