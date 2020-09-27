@@ -28,6 +28,8 @@ public class BudgetService {
         long totalMonths = getMonthBetween(startDate, endDate);
         LocalDate tmpDate;
         double amount = 0.0;
+        LocalDate startMonthFirstDate = LocalDate.of(startDate.getYear(), startDate.getMonth().getValue(), 1);
+        LocalDate endMonthLastDate = LocalDate.of(endDate.getYear(), endDate.getMonth(), lengthOfEndDateMonth);
 
         for(Budget vo: budgetList){
             for (int i = 0;i<=totalMonths;i++) {
@@ -40,17 +42,20 @@ public class BudgetService {
             }
             totalBudget +=  amount;
 
+
             String tmpYearMon = getYearMonth(startDate);
-            if (tmpYearMon.equals(vo.getYearMonth())&&startDate.getDayOfMonth() > 1) {
-                double outOfRangeDays = DAYS.between(LocalDate.of(startDate.getYear(), startDate.getMonth().getValue(), 1), startDate);
+            if (tmpYearMon.equals(vo.getYearMonth()) && startDate.getDayOfMonth() > 1) {
+                double outOfRangeDays = DAYS.between(startMonthFirstDate, startDate);
                 int lengthOfMonth = YearMonth.of(startDate.getYear(), startDate.getMonth().getValue()).lengthOfMonth();
                 totalBudget -= (amount / lengthOfMonth) * outOfRangeDays;
             }
 
+
             tmpYearMon = getYearMonth(endDate);
-            if (tmpYearMon.equals(vo.getYearMonth())&&endDate.getDayOfMonth() < lengthOfEndDateMonth) {
-                double outOfRangeDays = DAYS.between(endDate, LocalDate.of(endDate.getYear(), endDate.getMonth(), lengthOfEndDateMonth));
-                totalBudget -= (amount / lengthOfEndDateMonth) * outOfRangeDays;
+            if (tmpYearMon.equals(vo.getYearMonth()) && endDate.getDayOfMonth() < lengthOfEndDateMonth) {
+                double outOfRangeDays = DAYS.between(endDate, endMonthLastDate);
+                int lengthOfMonth = lengthOfEndDateMonth;
+                totalBudget -= (amount / lengthOfMonth) * outOfRangeDays;
             }
         }
 
