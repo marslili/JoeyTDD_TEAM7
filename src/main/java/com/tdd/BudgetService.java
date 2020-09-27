@@ -42,24 +42,14 @@ public class BudgetService{
             System.out.println("diffMonth:"+diffMonth);
             LocalDate tmpDate ;
 
-            String startYearMonth = getYearMonth(startDate);
-            double amount1 = 0.0;
-            for(Budget vo1 : budgetList){
-                if(vo1.getYearMonth().equals(startYearMonth)){
-                    amount1 = vo1.getAmount();
-                    break;
-                }
-            }
-
-            totalBudget = totalBudget + amount1;
-
-            for (int i = 0;i<diffMonth;i++) {
-                tmpDate = startDate.plusMonths(i+1);
+            for (int i = 0;i<=diffMonth;i++) {
+                tmpDate = startDate.plusMonths(i);
                 String tmpYearMon = getYearMonth(tmpDate);
                 double amount = 0.0;
                 for(Budget vo: budgetList){
                     if(vo.getYearMonth().equals(tmpYearMon)){
                         amount  = vo.getAmount();
+                        break;
                     }
                 }
                 totalBudget = totalBudget + amount;
@@ -78,7 +68,6 @@ public class BudgetService{
                 int lengthOfMonth = YearMonth.of(startDate.getYear(), startDate.getMonth().getValue()).lengthOfMonth();
                 totalBudget -= (budget/lengthOfMonth)*outOfRangeDays;
             }
-
 
             if(endDate.getDayOfMonth()< lengthOfEndDateMonth){
                 String tmpYearMon = getYearMonth(endDate);
