@@ -29,22 +29,9 @@ public class BudgetService{
          */
         if(startDate.getMonth() == endDate.getMonth()){
             String yearMonth = getYearMonth(startDate);
-            /*
-                整月
-             */
-            if( totalDays==diffDays ){
-                for(Budget vo:budgetList){
-                    if(vo.getYearMonth().equals(yearMonth)){
-                        return vo.getAmount();
-                    }
-                }
-
-            }//不足月
-            else{
-                for(Budget vo:budgetList){
-                    if(vo.getYearMonth().equals(yearMonth)){
-                        return vo.getAmount()*diffDays/totalDays;
-                    }
+            for(Budget vo:budgetList){
+                if(vo.getYearMonth().equals(yearMonth)){
+                    return vo.getAmount()*diffDays/totalDays;
                 }
             }
         }else{
