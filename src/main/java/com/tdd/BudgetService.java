@@ -29,14 +29,6 @@ public class BudgetService{
         /*
            is same month check
          */
-        if(startDate.getMonth() == endDate.getMonth()){
-            String yearMonth = getYearMonth(startDate);
-            for(Budget vo:budgetList){
-                if(vo.getYearMonth().equals(yearMonth)){
-                    totalBudget = vo.getAmount()*diffDays/totalDays;
-                }
-            }
-        }else{
             int lengthOfEndDateMonth = YearMonth.of(endDate.getYear(), endDate.getMonth().getValue()).lengthOfMonth();
             long diffMonth = MONTHS.between(startDate.withDayOfMonth(1), endDate.withDayOfMonth(lengthOfEndDateMonth));
             System.out.println("diffMonth:"+diffMonth);
@@ -81,7 +73,6 @@ public class BudgetService{
                 double outOfRangeDays = DAYS.between(endDate, LocalDate.of(endDate.getYear(),endDate.getMonth(), lengthOfEndDateMonth));
                 totalBudget -= (budget/lengthOfEndDateMonth)*outOfRangeDays;
             }
-        }
         return totalBudget;
     }
 
