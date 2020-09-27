@@ -82,9 +82,9 @@ class FakeBudgeRepo implements IBudgetRepo{
     public ArrayList<Budget> getAll(){
         ArrayList<Budget> list = new ArrayList<>();
 
-        list.add(new Budget("202007", 3100));
-        list.add(new Budget("202006", 3000));
         list.add(new Budget("202005", 3100));
+        list.add(new Budget("202006", 3000));
+        list.add(new Budget("202007", 3100));
 
         return list;
     }
