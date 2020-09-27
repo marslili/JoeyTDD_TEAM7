@@ -34,7 +34,6 @@ public class BudgetService implements IBudgetService{
         YearMonth yearMonth=YearMonth.of(startDate.getYear(),startDate.getMonth().getValue());
         double totalBudget = 0.0;
         for (int i = 0;i<diffMonth;i++) {
-
             totalBudget=totalBudget+getMonthBudget(yearMonth,startDate,endDate);
             yearMonth=yearMonth.plusMonths(1);
 
@@ -50,7 +49,6 @@ public class BudgetService implements IBudgetService{
 
         if(map.containsKey(key)){
             amount= map.get(key);
-            System.out.println("amount="+amount);
         }
         YearMonth startDateMonth = YearMonth.from(startDate);
         YearMonth endDateMonth = YearMonth.from(endDate);
