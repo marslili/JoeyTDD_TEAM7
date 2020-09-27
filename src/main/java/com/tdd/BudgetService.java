@@ -22,19 +22,23 @@ public class BudgetService implements IBudgetService {
     public double query(LocalDate startDate, LocalDate endDate) {
         HashMap<String, Integer> map=getAll();
 
-        Period period=new Period(startDate,endDate);
         if (startDate.isAfter(endDate)) {
             return 0;
         }
-        Long diffMonth=period.getDiffMonth();
-        YearMonth currentMonth = YearMonth.of(startDate.getYear(), startDate.getMonth().getValue());
 
+        Period period=new Period(startDate,endDate);
+        Long diffMonth=period.getDiffMonth();
+
+        YearMonth currentMonth = YearMonth.of(startDate.getYear(), startDate.getMonth().getValue());
         double totalBudget = 0.0;
         //以查詢時間逐月去滾
         for (int i = 0; i < diffMonth; i++) {
+
+            Double ratio=period.getOverLapRatio(currentMonth);
+
             Budget vo=new Budget();
             vo.setCurrentMonth(currentMonth);
-            vo.setPeriod(new Period(startDate,endDate));
+            vo.setRatio(ratio);
             vo.setAmount(map.get(currentMonth.format(DateTimeFormatter.ofPattern("yyyyMM"))));
 
             totalBudget = totalBudget + vo.getTotalAmount();
