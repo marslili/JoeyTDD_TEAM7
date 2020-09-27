@@ -54,9 +54,9 @@ public class BudgetServerTest {
     public void test_DiffMonQuery(){
         service = new BudgetService();
         LocalDate startDate = LocalDate.of(2020,6,1);
-        LocalDate endDate = LocalDate.of(2021,8,31);
+        LocalDate endDate = LocalDate.of(2020,8,30);
         double resultAmount = service.query(startDate,endDate);
-        Assert.assertThat(6100.0,is(resultAmount));
+        Assert.assertThat(9100.0,is(resultAmount));
 
     }
 

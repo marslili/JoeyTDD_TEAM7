@@ -1,9 +1,10 @@
 package com.tdd;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface IBudgetService {
-    ArrayList<Budget> getAll();
+    HashMap<String,Integer> getAll();
 
 
 
