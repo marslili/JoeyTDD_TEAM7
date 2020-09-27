@@ -13,7 +13,6 @@ public class Period {
         this.endDate = endDate;
     }
 
-    private Double overLapRatio;
     private LocalDate startDate;
     private LocalDate endDate;
 
@@ -29,9 +28,9 @@ public class Period {
             Long diffDays = DAYS.between(getStartDate(), getEndDate());
             return (diffDays + 1) * 1.0 / getStartDate().lengthOfMonth();
         }
-        //頭
+        //計算頭
         if (currentMonth.equals(getStartYearMonth())) {
-            ratio = (getStartDate().lengthOfMonth() - getStartDate().getDayOfMonth() + 1) * 1.0 / (getStartDate().lengthOfMonth() * 1.0);
+            ratio = (getStartDate().lengthOfMonth() - getStartDate().getDayOfMonth() + 1) / (getStartDate().lengthOfMonth() * 1.0);
         } else if (currentMonth.isAfter(getStartYearMonth()) && currentMonth.isBefore(getEndYearMonth())) {//中間
             ratio = 1d;
         } else if (currentMonth.equals(getEndYearMonth())) {//尾巴
@@ -45,22 +44,13 @@ public class Period {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
     public LocalDate getEndDate() {
         return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
     }
 
     public YearMonth getStartYearMonth() {
         return YearMonth.from(this.startDate);
     }
-
 
     public YearMonth getEndYearMonth() {
         return YearMonth.from(this.endDate);

@@ -35,10 +35,11 @@ public class BudgetService implements IBudgetService {
         for (int i = 0; i < diffMonth; i++) {
             Integer amount=0;
             String key=currentMonth.format(DateTimeFormatter.ofPattern("yyyyMM"));
+            //取得當月預算
             if(map.containsKey(key)){
                 amount=map.get(key);
             }
-
+            //計算重疊比例
             Double overLapRatio=period.getOverLapRatio(currentMonth);
 
             Budget vo=new Budget();
@@ -51,8 +52,6 @@ public class BudgetService implements IBudgetService {
         }
         return totalBudget;
     }
-
-
 
     @Override
     public HashMap<String, Integer> getAll() {
