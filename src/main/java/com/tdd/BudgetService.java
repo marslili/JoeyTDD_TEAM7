@@ -33,13 +33,18 @@ public class BudgetService implements IBudgetService {
         double totalBudget = 0.0;
         //以查詢時間逐月去滾
         for (int i = 0; i < diffMonth; i++) {
+            Integer amount=0;
+            String key=currentMonth.format(DateTimeFormatter.ofPattern("yyyyMM"));
+            if(map.containsKey(key)){
+                amount=map.get(key);
+            }
 
-            Double ratio=period.getOverLapRatio(currentMonth);
+            Double overLapRatio=period.getOverLapRatio(currentMonth);
 
             Budget vo=new Budget();
             vo.setCurrentMonth(currentMonth);
-            vo.setRatio(ratio);
-            vo.setAmount(map.get(currentMonth.format(DateTimeFormatter.ofPattern("yyyyMM"))));
+            vo.setRatio(overLapRatio);
+            vo.setAmount(amount);
 
             totalBudget = totalBudget + vo.getTotalAmount();
             currentMonth = currentMonth.plusMonths(1);
