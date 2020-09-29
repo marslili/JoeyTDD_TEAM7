@@ -28,4 +28,9 @@ public class Budget {
     LocalDate lastDate() {
         return YearMonth.from(firstDate()).atEndOfMonth();
     }
+
+    double overlappingBudgetAmount(Period targetPeriod) {
+        Period period = new Period(firstDate(), lastDate());
+        return (getAmount() / period.lengthOfMonth()) * period.daysBetween(targetPeriod);
+    }
 }

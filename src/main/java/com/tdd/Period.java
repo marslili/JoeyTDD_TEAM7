@@ -36,7 +36,4 @@ public class Period {
         return daysBetween;
     }
 
-    double overlappingBudgetAmount(Budget budget, Period targetPeriod) {
-        return (budget.getAmount() / lengthOfMonth()) * daysBetween(targetPeriod);
-    }
 }
