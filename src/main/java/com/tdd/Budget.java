@@ -5,32 +5,26 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 
 public class Budget {
-    private double amount;
-    private String yearMonth;
+    private final double amount;
+    private final String yearMonth;
 
-    public Budget( String yearMonth, double amount) {
+    public Budget(String yearMonth, double amount) {
         this.amount = amount;
         this.yearMonth = yearMonth;
     }
 
-    public double getAmount() {
-        return amount;
+    double overlappingBudgetAmount(Period targetPeriod) {
+        Period period = new Period(firstDate(), lastDate());
+        return (amount / period.lengthOfMonth()) * period.daysBetween(targetPeriod);
     }
 
-    public String getYearMonth() {
-        return yearMonth;
+    private LocalDate firstDate() {
+        return LocalDate.parse(yearMonth + "01", DateTimeFormatter.ofPattern("yyyyMMdd"));
     }
 
-    LocalDate firstDate() {
-        return LocalDate.parse(getYearMonth() + "01", DateTimeFormatter.ofPattern("yyyyMMdd"));
-    }
-
-    LocalDate lastDate() {
+    private LocalDate lastDate() {
         return YearMonth.from(firstDate()).atEndOfMonth();
     }
 
-    double overlappingBudgetAmount(Period targetPeriod) {
-        Period period = new Period(firstDate(), lastDate());
-        return (getAmount() / period.lengthOfMonth()) * period.daysBetween(targetPeriod);
-    }
+
 }

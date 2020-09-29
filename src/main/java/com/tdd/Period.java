@@ -13,22 +13,14 @@ public class Period {
         this.lastBudgetDate = lastBudgetDate;
     }
 
-    public LocalDate getFirstBudgetDate() {
-        return firstBudgetDate;
-    }
-
-    public LocalDate getLastBudgetDate() {
-        return lastBudgetDate;
-    }
-
     public int lengthOfMonth() {
         return lastBudgetDate.lengthOfMonth();
     }
 
     long daysBetween(Period period) {
         long daysBetween = 0;
-        LocalDate tempStartDate = getFirstBudgetDate().isBefore(period.getFirstBudgetDate()) ? period.getFirstBudgetDate() : getFirstBudgetDate();
-        LocalDate tempEndDate = getLastBudgetDate().isBefore(period.getLastBudgetDate()) ? getLastBudgetDate() : period.getLastBudgetDate();
+        LocalDate tempStartDate = firstBudgetDate.isBefore(period.firstBudgetDate) ? period.firstBudgetDate : firstBudgetDate;
+        LocalDate tempEndDate = lastBudgetDate.isBefore(period.lastBudgetDate) ? lastBudgetDate : period.lastBudgetDate;
 
         if (tempStartDate.isBefore(tempEndDate) || tempStartDate.isEqual(tempEndDate)) {
             daysBetween = DAYS.between(tempStartDate, tempEndDate) + 1;

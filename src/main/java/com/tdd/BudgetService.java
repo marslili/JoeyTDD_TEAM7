@@ -3,8 +3,6 @@ package com.tdd;
 import java.time.LocalDate;
 
 public class BudgetService {
-
-
     IBudgetRepo budgetRepo;
 
     public BudgetService(IBudgetRepo budgetRepo) {
@@ -16,12 +14,12 @@ public class BudgetService {
             return 0;
         }
 
-        Period targetPeriod = new Period(startDate, endDate);
+        Period period = new Period(startDate, endDate);
 
         return budgetRepo.getAll()
                 .stream()
-                .mapToDouble(budget -> budget.overlappingBudgetAmount(targetPeriod))
+                .mapToDouble(budget ->
+                        budget.overlappingBudgetAmount(period))
                 .sum();
     }
-
 }
