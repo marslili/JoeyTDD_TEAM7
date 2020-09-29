@@ -23,22 +23,33 @@ public class BudgetService {
 
         double totalBudget = 0.0;
         double amount;
+        long daysBetween;
+        LocalDate firstBudgetDate;
+        LocalDate lastBudgetDate;
 
         for(Budget budget: budgetList){
-            LocalDate firstBudgetDate = budget.firstDate();
-            LocalDate lastBudgetDate = budget.lastDate();
+            amount = budget.getAmount();
 
-            LocalDate tempStartDate = firstBudgetDate.isBefore(startDate)?startDate:firstBudgetDate;
-            LocalDate tempEndDate = lastBudgetDate.isBefore(endDate)?lastBudgetDate:endDate;
+            firstBudgetDate = budget.firstDate();
+            lastBudgetDate = budget.lastDate();
 
-            if(tempStartDate.isBefore(tempEndDate) || tempStartDate.isEqual(tempEndDate)){
-                long daysBetween = DAYS.between(tempStartDate, tempEndDate)+1;
-                amount = budget.getAmount();
-                totalBudget += amount/lastBudgetDate.lengthOfMonth() *daysBetween;
-            }
+            daysBetween = daysBetween(startDate, endDate, firstBudgetDate, lastBudgetDate);
+
+            totalBudget += amount/lastBudgetDate.lengthOfMonth() *daysBetween;
         }
 
         return totalBudget;
+    }
+
+    private long daysBetween(LocalDate startDate, LocalDate endDate, LocalDate firstBudgetDate, LocalDate lastBudgetDate) {
+        long daysBetween = 0;
+        LocalDate tempStartDate = firstBudgetDate.isBefore(startDate)? startDate : firstBudgetDate;
+        LocalDate tempEndDate = lastBudgetDate.isBefore(endDate)? lastBudgetDate : endDate;
+
+        if(tempStartDate.isBefore(tempEndDate) || tempStartDate.isEqual(tempEndDate)){
+            daysBetween = DAYS.between(tempStartDate, tempEndDate)+1;
+        }
+        return daysBetween;
     }
 
 }
