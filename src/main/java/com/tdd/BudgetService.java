@@ -3,8 +3,6 @@ package com.tdd;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-
 public class BudgetService {
 
 
@@ -26,30 +24,19 @@ public class BudgetService {
         long daysBetween;
         LocalDate firstBudgetDate;
         LocalDate lastBudgetDate;
-
         for(Budget budget: budgetList){
             amount = budget.getAmount();
 
             firstBudgetDate = budget.firstDate();
             lastBudgetDate = budget.lastDate();
 
-            daysBetween = daysBetween(startDate, endDate, new Period(firstBudgetDate, lastBudgetDate));
+            Period period = new Period(firstBudgetDate, lastBudgetDate);
+            daysBetween = period.daysBetween(startDate, endDate);
 
-            totalBudget += amount/lastBudgetDate.lengthOfMonth() *daysBetween;
+            totalBudget += amount/ lastBudgetDate.lengthOfMonth() *daysBetween;
         }
 
         return totalBudget;
-    }
-
-    private long daysBetween(LocalDate startDate, LocalDate endDate, Period period) {
-        long daysBetween = 0;
-        LocalDate tempStartDate = period.getFirstBudgetDate().isBefore(startDate)? startDate : period.getFirstBudgetDate();
-        LocalDate tempEndDate = period.getLastBudgetDate().isBefore(endDate)? period.getLastBudgetDate() : endDate;
-
-        if(tempStartDate.isBefore(tempEndDate) || tempStartDate.isEqual(tempEndDate)){
-            daysBetween = DAYS.between(tempStartDate, tempEndDate)+1;
-        }
-        return daysBetween;
     }
 
 }
