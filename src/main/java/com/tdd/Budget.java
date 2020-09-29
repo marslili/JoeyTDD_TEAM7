@@ -1,5 +1,9 @@
 package com.tdd;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+
 public class Budget {
     private double amount;
     private String yearMonth;
@@ -15,5 +19,13 @@ public class Budget {
 
     public String getYearMonth() {
         return yearMonth;
+    }
+
+    LocalDate firstDate() {
+        return LocalDate.parse(getYearMonth() + "01", DateTimeFormatter.ofPattern("yyyyMMdd"));
+    }
+
+    LocalDate lastDate() {
+        return YearMonth.from(firstDate()).atEndOfMonth();
     }
 }

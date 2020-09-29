@@ -1,8 +1,6 @@
 package com.tdd;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -27,10 +25,12 @@ public class BudgetService {
         double amount;
 
         for(Budget budget: budgetList){
-            LocalDate firstBudgetDate = LocalDate.parse(budget.getYearMonth() + "01", DateTimeFormatter.ofPattern("yyyyMMdd"));
-            LocalDate lastBudgetDate = YearMonth.from(firstBudgetDate).atEndOfMonth();
+            LocalDate firstBudgetDate = budget.firstDate();
+            LocalDate lastBudgetDate = budget.lastDate();
+
             LocalDate tempStartDate = firstBudgetDate.isBefore(startDate)?startDate:firstBudgetDate;
             LocalDate tempEndDate = lastBudgetDate.isBefore(endDate)?lastBudgetDate:endDate;
+
             if(tempStartDate.isBefore(tempEndDate) || tempStartDate.isEqual(tempEndDate)){
                 long daysBetween = DAYS.between(tempStartDate, tempEndDate)+1;
                 amount = budget.getAmount();
@@ -40,4 +40,5 @@ public class BudgetService {
 
         return totalBudget;
     }
+
 }
