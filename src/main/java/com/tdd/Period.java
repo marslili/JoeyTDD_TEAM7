@@ -21,13 +21,13 @@ public class Period {
         return lastBudgetDate;
     }
 
-    long daysBetween(LocalDate startDate, LocalDate endDate) {
+    long daysBetween(Period period) {
         long daysBetween = 0;
-        LocalDate tempStartDate = getFirstBudgetDate().isBefore(startDate)? startDate : getFirstBudgetDate();
-        LocalDate tempEndDate = getLastBudgetDate().isBefore(endDate)? getLastBudgetDate() : endDate;
+        LocalDate tempStartDate = getFirstBudgetDate().isBefore(period.getFirstBudgetDate()) ? period.getFirstBudgetDate() : getFirstBudgetDate();
+        LocalDate tempEndDate = getLastBudgetDate().isBefore(period.getLastBudgetDate()) ? getLastBudgetDate() : period.getLastBudgetDate();
 
-        if(tempStartDate.isBefore(tempEndDate) || tempStartDate.isEqual(tempEndDate)){
-            daysBetween = DAYS.between(tempStartDate, tempEndDate)+1;
+        if (tempStartDate.isBefore(tempEndDate) || tempStartDate.isEqual(tempEndDate)) {
+            daysBetween = DAYS.between(tempStartDate, tempEndDate) + 1;
         }
         return daysBetween;
     }

@@ -31,12 +31,16 @@ public class BudgetService {
             lastBudgetDate = budget.lastDate();
 
             Period period = new Period(firstBudgetDate, lastBudgetDate);
-            daysBetween = period.daysBetween(startDate, endDate);
+            daysBetween = period.daysBetween(new Period(startDate, endDate));
 
-            totalBudget += amount/ lastBudgetDate.lengthOfMonth() *daysBetween;
+            totalBudget += amount / lengthOfMonth(lastBudgetDate) * daysBetween;
         }
 
         return totalBudget;
+    }
+
+    private int lengthOfMonth(LocalDate lastBudgetDate) {
+        return lastBudgetDate.lengthOfMonth();
     }
 
 }
