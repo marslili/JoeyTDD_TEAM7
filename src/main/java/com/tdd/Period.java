@@ -21,6 +21,10 @@ public class Period {
         return lastBudgetDate;
     }
 
+    public int lengthOfMonth() {
+        return lastBudgetDate.lengthOfMonth();
+    }
+
     long daysBetween(Period period) {
         long daysBetween = 0;
         LocalDate tempStartDate = getFirstBudgetDate().isBefore(period.getFirstBudgetDate()) ? period.getFirstBudgetDate() : getFirstBudgetDate();
@@ -30,5 +34,9 @@ public class Period {
             daysBetween = DAYS.between(tempStartDate, tempEndDate) + 1;
         }
         return daysBetween;
+    }
+
+    double overlappingBudgetAmount(Budget budget, Period targetPeriod) {
+        return (budget.getAmount() / lengthOfMonth()) * daysBetween(targetPeriod);
     }
 }
