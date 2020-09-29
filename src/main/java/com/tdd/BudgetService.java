@@ -33,7 +33,7 @@ public class BudgetService {
             firstBudgetDate = budget.firstDate();
             lastBudgetDate = budget.lastDate();
 
-            daysBetween = daysBetween(startDate, endDate, firstBudgetDate, lastBudgetDate);
+            daysBetween = daysBetween(startDate, endDate, new Period(firstBudgetDate, lastBudgetDate));
 
             totalBudget += amount/lastBudgetDate.lengthOfMonth() *daysBetween;
         }
@@ -41,10 +41,10 @@ public class BudgetService {
         return totalBudget;
     }
 
-    private long daysBetween(LocalDate startDate, LocalDate endDate, LocalDate firstBudgetDate, LocalDate lastBudgetDate) {
+    private long daysBetween(LocalDate startDate, LocalDate endDate, Period period) {
         long daysBetween = 0;
-        LocalDate tempStartDate = firstBudgetDate.isBefore(startDate)? startDate : firstBudgetDate;
-        LocalDate tempEndDate = lastBudgetDate.isBefore(endDate)? lastBudgetDate : endDate;
+        LocalDate tempStartDate = period.getFirstBudgetDate().isBefore(startDate)? startDate : period.getFirstBudgetDate();
+        LocalDate tempEndDate = period.getLastBudgetDate().isBefore(endDate)? period.getLastBudgetDate() : endDate;
 
         if(tempStartDate.isBefore(tempEndDate) || tempStartDate.isEqual(tempEndDate)){
             daysBetween = DAYS.between(tempStartDate, tempEndDate)+1;
